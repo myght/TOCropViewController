@@ -836,6 +836,7 @@
     
     BOOL isDidCropToImageDelegateAvailable = [self.delegate respondsToSelector:@selector(cropViewController:didCropToImage:withRect:angle:)];
     BOOL isDidCropToImageCallbackAvailable = self.onDidCropToRect != nil;
+    printf("----------- isDidCropToImageDelegateAvailable[%d]", isDidCropToImageDelegateAvailable);
     
     //If the delegate/block that requires the specific cropped image is provided, call it
     if (isDidCropToImageDelegateAvailable || isDidCropToImageCallbackAvailable) {
@@ -850,6 +851,7 @@
         //Dispatch on the next run-loop so the animation isn't interuppted by the crop operation
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.03f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (isDidCropToImageDelegateAvailable) {
+                printf("------------ didCropTimImage");
                 [self.delegate cropViewController:self didCropToImage:image withRect:cropFrame angle:angle];
             }
             if (isDidCropToImageCallbackAvailable) {
